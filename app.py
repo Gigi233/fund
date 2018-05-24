@@ -16,23 +16,30 @@ def create_app():
     return app
 
 
+app = create_app()
+
+
 @app.route('/', method='POST')
 def hello_world():
     form = UploadProjectForm()
     if form.validate():
         form.create()
-        logger.debug('### form created')
+        logger.debug('### form created successfully')
     return 'Hello World!'
 
 
 @app.route('/upload', method='POST')
-def upload(self, file):
-    filename = 'BP/' + gen_filename(mimetype)
-    oss.bucket.put_object(filename, file, {'Content-Type': mimetype})
+def upload():
+    logger.debug('###request.method: %s, request.endpoint: %s', request.method, request.endpoint)
+    logger.debug('###request.form: %s,  request.files: %s', request.form, request.files)
+    file = request.form.get('file')
+    type = request.form.get('type', '')
+    filename = 'BP/' + gen_filename(type) + request.form.get('file')
+    oss.bucket.put_object(filename, file, {'Content-Type': type})
     url = f'{oss.domain_schema}://{oss.bucket.bucket_name}.{oss.domain}/{filename}'
     # 保存到数据库
     ur = UploadRecord(
-        mimetype=mimetype,
+        mimetype=type,
         filename=filename, url=url
     )
     db.session.add(ur)
@@ -41,4 +48,4 @@ def upload(self, file):
 
 
 if __name__ == '__main__':
-    create_app().run()
+    app.run()

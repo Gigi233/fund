@@ -1,7 +1,9 @@
 import uuid
 from mimetypes import guess_extension
-
+import logging
 import oss2
+
+logger = logging.getLogger(__name__)
 
 
 class FlaskOSS:
@@ -31,9 +33,10 @@ def gen_filename(mimetype=''):
     :params mimetype: 用于生成文件扩展名
     """
     ext = guess_extension(mimetype)
-    if ext == '.jpe':
-        ext = '.jpg'
-    elif ext is None:
+    logger.debug('###mimemetype: %s, extension: %s', (mimetype, ext))
+    if ext is None:
         ext = ''
 
-    return uuid.uuid4().hex + ext
+    return uuid.uuid4().hex  # + ext
+
+

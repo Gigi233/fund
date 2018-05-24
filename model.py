@@ -25,9 +25,6 @@ class Project(db.Model, TimestampMixin):
 
 class UploadRecord(TimestampMixin):
     id = db.Column(db.Integer, primary_key=True)
-    project_id = db.Column(db.Integer)
     mimetype = db.Column(db.String(50))
     filename = db.Column(db.String(50))
     url = db.Column(db.String(191))
-    # Content-type: application/x-zip-compressed application/zip application/gzip
-    # Content-type: application/octet-stream

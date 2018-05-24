@@ -19,7 +19,7 @@ def create_app():
 app = create_app()
 
 
-@app.route('/', method='POST')
+@app.route('/', methods=['POST'])
 def hello_world():
     form = UploadProjectForm()
     if form.validate():
@@ -28,7 +28,7 @@ def hello_world():
     return 'Hello World!'
 
 
-@app.route('/upload', method='POST')
+@app.route('/upload', methods=['POST'])
 def upload():
     logger.debug('###request.method: %s, request.endpoint: %s', request.method, request.endpoint)
     logger.debug('###request.form: %s,  request.files: %s', request.form, request.files)

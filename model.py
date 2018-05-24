@@ -23,7 +23,7 @@ class Project(db.Model, TimestampMixin):
     file = db.Column(db.String(191), nullable=False, default='')
 
 
-class UploadRecord(TimestampMixin):
+class UploadRecord(db.Model, TimestampMixin):
     id = db.Column(db.Integer, primary_key=True)
     mimetype = db.Column(db.String(50))
     filename = db.Column(db.String(50))
